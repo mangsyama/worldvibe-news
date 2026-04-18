@@ -1,0 +1,48 @@
+/* Custom CSS for WorldVibe */
+
+:root {
+    --sb-track: #ffffff;
+    --sb-thumb: #e5e7eb;
+}
+
+.dark {
+    --sb-track: #020617; /* slate-950 */
+    --sb-thumb: #1e293b; /* slate-800 */
+}
+
+body { 
+    font-family: 'Inter', sans-serif; 
+}
+
+.border-thin { 
+    border: 1px solid #e5e7eb; 
+}
+
+/* Custom styles for news image placeholder */
+.news-img-placeholder {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+/* Dynamic Scrollbar */
+::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+::-webkit-scrollbar-track { 
+    background: var(--sb-track); 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: var(--sb-thumb); 
+    border-radius: 10px;
+    border: 2px solid var(--sb-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3b82f6; /* blue-500 */
+}
+
+/* Transitions */
+.transition-colors {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

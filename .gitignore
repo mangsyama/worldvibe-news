@@ -1,0 +1,13 @@
+# Folders
+.vscode/
+.idea/
+node_modules/
+.gemini/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Local config
+.env
+.env.local
