@@ -181,24 +181,30 @@ function renderNews(articles) {
     // 2. Render Remaining Articles in Grid
     const remaining = articles.slice(1);
     remaining.forEach((article, index) => {
-        // Create News Card
-        const card = createNewsCard(article);
-        newsGrid.appendChild(card);
+        // Render news card
+        newsGrid.appendChild(createNewsCard(article));
 
-        // Insert Native Ad Placeholder every 3 items
+        // AGGRESSIVE: Inject Ad Card every 3 articles
         if ((index + 1) % 3 === 0) {
-            const adPlaceholder = document.createElement('div');
-            adPlaceholder.className = 'md:col-span-2 lg:col-span-1 border border-gray-200 bg-gray-50 flex items-center justify-center p-6 relative min-h-[250px]';
-            adPlaceholder.innerHTML = `
-                <span class="text-[10px] text-gray-400 font-medium absolute top-2 left-2 uppercase tracking-tighter">Sponsored</span>
-                <div class="text-center w-full">
-                    <p class="text-xs text-slate-400 mb-3">Recommended for you</p>
-                    <div class="h-10 bg-gray-100 w-full mb-2 animate-pulse"></div>
-                    <div class="h-4 bg-gray-100 w-3/4 mx-auto animate-pulse"></div>
-                    <button onclick="goToAds(event)" class="mt-4 inline-block text-[10px] font-bold text-blue-600 uppercase border-b border-blue-600">Check Offer</button>
-                </div>
+            const adCard = document.createElement('div');
+            adCard.className = 'border border-gray-200 dark:border-slate-800 p-2 bg-gray-50 dark:bg-slate-900 flex flex-col items-center justify-center min-h-[350px] relative';
+            adCard.innerHTML = `
+                <span class="text-[10px] text-gray-400 dark:text-slate-600 font-medium absolute top-2 left-2">SPONSORED</span>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'b914679eb4c2c40c64517a030b073abc',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="https://www.highperformanceformat.com/b914679eb4c2c40c64517a030b073abc/invoke.js"></script>
+                <button onclick="goToAds(event)" class="mt-4 w-full py-2 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-slate-900 transition-colors">
+                    Unlock Content
+                </button>
             `;
-            newsGrid.appendChild(adPlaceholder);
+            newsGrid.appendChild(adCard);
         }
     });
 
