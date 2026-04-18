@@ -1,8 +1,90 @@
-// --- CONFIGURATION ---
-const API_KEY = '11303c6a87c84e66a612c894117d3331'; // NewsAPI.org Key
-const NEWS_SOURCE = 'https://newsapi.org/v2/top-headlines?';
-// IMPORTANT: Replace this with your AdSterra Direct Link / Smartlink
-const DIRECT_LINK = 'https://www.google.com'; 
+const API_KEY = 'e5793e223d249f394f488e5d34676679'; // GNews API Key
+const NEWS_SOURCE = 'https://gnews.io/api/v4/top-headlines?category=';
+const DIRECT_LINK = 'https://www.profitablecpmratenetwork.com/bc7v0ndj?key=ea32948bd442a90ca9e16a82dc31cf86'; 
+
+// --- MOCK DATA (BACKUP NEWS) ---
+const MOCK_ARTICLES = [
+    {
+        title: "Global Tech Summit 2026: The Future of AI in Daily Life",
+        description: "Leading experts gather to discuss how artificial intelligence is reshaping industries from healthcare to finance in the coming decade.",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "TECH INSIDER" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Sustainable Cities: Innovative Urban Planning for a Greener Future",
+        description: "New architectural breakthroughs are allowing cities to breathe again with vertical forests and 100% renewable energy grids.",
+        image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "URBAN BEAT" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "SpaceX Mars Mission: First Humans Set to Land by 2029",
+        description: "The dream of becoming a multi-planetary species is closer than ever as the latest Starship tests exceed all performance expectations.",
+        image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "COSMOS DAILY" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Breakthrough in Clean Energy: Fusion Power Becomes Viable",
+        description: "Scientists achieve a net energy gain in nuclear fusion, marking the start of a new era of limitless, carbon-free electricity.",
+        image: "https://images.unsplash.com/photo-1509041318473-f860c4e0677a?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "ENERGY NEWS" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "The Rise of Digital Nomads: Working from Paradise",
+        description: "How high-speed satellite internet is allowing millions to ditch the office for beaches and mountains around the world.",
+        image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "LIFESTYLE" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "New Health Discovery: The Secret to Longevity",
+        description: "A comprehensive study of blue zones reveals that it's not just diet, but community and purpose that add decades to life.",
+        image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "HEALTH HUB" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Financial Markets Rally as Global Inflation Cools Down",
+        description: "Stock markets hit record highs as central banks signal the end of rate hikes, sparking optimism for the new year.",
+        image: "https://images.unsplash.com/photo-1611974714024-462cd297c8a0?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "MARKET WATCH" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Electric Vehicles Surpass Gasoline Car Sales in Record Month",
+        description: "A major tipping point reached in the automotive industry as consumer preference shifts permanently toward electric power.",
+        image: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "AUTO TECH" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Discovery of Ancient City Rewrites Human History",
+        description: "Archaeologists uncover a lost civilization in the Amazon that was far more advanced than previously thought possible.",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "HISTORY" },
+        publishedAt: new Date().toISOString()
+    },
+    {
+        title: "Ocean Cleanup Project Removes 10 Million Pounds of Plastic",
+        description: "The world's largest initiative to save our oceans reaches a massive milestone, giving hope to marine ecosystems.",
+        image: "https://images.unsplash.com/photo-1484291470158-b8f8d608850d?auto=format&fit=crop&w=800&q=80",
+        url: "#",
+        source: { name: "ECO WORLD" },
+        publishedAt: new Date().toISOString()
+    }
+];
 
 // Helper function to handle all mining/ad clicks
 function goToAds(event) {
@@ -35,17 +117,15 @@ async function fetchNews(category = 'general', event = null) {
         // Scroll to top when changing categories
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        const response = await fetch(`${NEWS_SOURCE}category=${category}&language=en&country=us&pageSize=50&apiKey=${API_KEY}`);
+        const response = await fetch(`${NEWS_SOURCE}${category}&lang=en&country=us&max=10&apikey=${API_KEY}`);
         const data = await response.json();
 
-        if (data.status === 'ok' && data.articles) {
-            // FILTERING: Remove articles with null images, titles, descriptions, or [Removed] status
+        if (data.articles) {
+            // FILTERING: GNews structure uses 'image'
             const filteredArticles = data.articles.filter(article => 
                 article.title && 
-                article.title !== '[Removed]' && 
                 article.description && 
-                article.urlToImage &&
-                article.urlToImage.startsWith('http')
+                article.image
             );
 
             if (filteredArticles.length > 0) {
@@ -54,12 +134,12 @@ async function fetchNews(category = 'general', event = null) {
                 showEmpty();
             }
         } else {
-            console.error("API Error:", data.message);
-            showError();
+            console.warn("API Error or Limit Reached. Using Mock Data fallback.");
+            renderNews(MOCK_ARTICLES);
         }
     } catch (error) {
         console.error("Fetch Error:", error);
-        showError();
+        renderNews(MOCK_ARTICLES);
     } finally {
         heroLoader.classList.add('hidden');
         gridLoader.classList.add('hidden');
@@ -73,8 +153,8 @@ function renderNews(articles) {
     if (hero) {
         heroSection.innerHTML = `
             <div class="group cursor-pointer" onclick="window.open('${hero.url}', '_blank')">
-                <div class="relative w-full aspect-video overflow-hidden mb-6 border border-gray-100 bg-gray-100">
-                    <img src="${hero.urlToImage}" alt="${hero.title}" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
+                <div class="relative w-full aspect-video overflow-hidden mb-6 border border-gray-100 dark:border-slate-800 bg-gray-100 dark:bg-slate-800">
+                    <img src="${hero.image}" alt="${hero.title}" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700">
                     <div class="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest">
                         Featured
                     </div>
@@ -122,11 +202,11 @@ function renderNews(articles) {
         }
     });
 
-    // 3. Render Trending Sidebar (articles 20-25)
-    renderTrending(articles.slice(20, 25));
+    // 3. Render Trending Sidebar (articles 6-10)
+    renderTrending(articles.slice(6, 10));
 
-    // 4. Render Recommended Sidebar (articles 25-35)
-    renderSidebarRecommended(articles.slice(25, 35));
+    // 4. Render Recommended Sidebar (articles 3-8)
+    renderSidebarRecommended(articles.slice(3, 8));
 }
 
 function renderSidebarRecommended(articles) {
@@ -141,7 +221,7 @@ function renderSidebarRecommended(articles) {
         div.innerHTML = `
             <div class="flex gap-4 items-start">
                 <div class="w-20 h-20 flex-shrink-0 overflow-hidden border border-gray-100 dark:border-slate-800 bg-gray-100 dark:bg-slate-800">
-                    <img src="${article.urlToImage}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                 </div>
                 <div>
                     <h4 class="text-xs font-bold dark:text-white leading-tight line-clamp-3 group-hover:text-blue-600 transition-colors">
@@ -182,7 +262,7 @@ function createNewsCard(article) {
     div.className = 'border border-gray-200 dark:border-slate-800 p-0 group flex flex-col h-full bg-white dark:bg-slate-900 transition-colors';
     div.innerHTML = `
         <div class="w-full aspect-[16/10] overflow-hidden border-b border-gray-100 dark:border-slate-800 bg-gray-100 dark:bg-slate-800">
-            <img src="${article.urlToImage}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale-[10%] group-hover:grayscale-0">
+            <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale-[10%] group-hover:grayscale-0">
         </div>
         <div class="p-6 flex flex-col flex-grow">
             <h3 class="text-xl font-bold mb-3 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2 dark:text-white">
